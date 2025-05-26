@@ -1,0 +1,1 @@
+# serializers for ai_assistant app 

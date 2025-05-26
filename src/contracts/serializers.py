@@ -1,0 +1,1 @@
+# serializers for contracts app 
