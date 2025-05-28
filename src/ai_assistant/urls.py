@@ -1,5 +1,6 @@
 from django.urls import path
+from .views import OpenRouterChatView
 
 urlpatterns = [
-    # Add your AI assistant endpoints here
+    path('chat/', OpenRouterChatView.as_view(), name='openrouter-chat'),
 ] 

@@ -1,5 +1,6 @@
 from django.urls import path
+from .views import SendNotificationEmailView
 
 urlpatterns = [
-    # Add your notification endpoints here
+    path('send/', SendNotificationEmailView.as_view(), name='send-notification-email'),
 ] 
