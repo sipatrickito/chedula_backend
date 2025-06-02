@@ -101,6 +101,9 @@ DATABASES = {
         "PASSWORD": os.getenv("DB_PASSWORD", ""),
         "HOST": os.getenv("DB_HOST", "localhost"),
         "PORT": os.getenv("DB_PORT", "5432"),
+        "OPTIONS": {
+            "sslmode": "require"
+        }
     }
 }
 
@@ -189,11 +192,11 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SUPABASE_JWT_SECRET,
     "VERIFYING_KEY": None,
-    "AUDIENCE": None,
+    "AUDIENCE": "authenticated",
     "ISSUER": None,
     "AUTH_HEADER_TYPES": ("Bearer",),
     "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "sub",  # Supabase uses 'sub' for user ID
+    "USER_ID_CLAIM": "sub",
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }

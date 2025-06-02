@@ -328,29 +328,17 @@ class AuditLoggingMiddleware(MiddlewareMixin):
             )
     
     def _detect_sql_injection(self, request: HttpRequest) -> bool:
-        """Detect potential SQL injection attempts."""
         sql_patterns = [
             'union select', 'drop table', 'insert into', 'delete from',
             '1=1', "' or '1'='1", '" or "1"="1"', '--', '/*', '*/',
             'exec(', 'sp_', 'xp_'
         ]
-        
         # Check query parameters
         query_string = request.META.get('QUERY_STRING', '').lower()
         for pattern in sql_patterns:
             if pattern in query_string:
                 return True
-        
-        # Check POST data if available
-        if hasattr(request, 'body') and request.body:
-            try:
-                body_string = request.body.decode('utf-8').lower()
-                for pattern in sql_patterns:
-                    if pattern in body_string:
-                        return True
-            except UnicodeDecodeError:
-                pass
-        
+        # SKIP request.body check here to avoid RawPostDataException in process_response
         return False
     
     def _detect_xss_attempt(self, request: HttpRequest) -> bool:

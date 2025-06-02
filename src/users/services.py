@@ -69,6 +69,7 @@ class UserProfileService:
                     action='register',
                     success=True,
                     user_id=user_id,
+                    ip_address='0.0.0.0',
                     metadata={
                         'business_type': profile.business_type,
                         'trial_end_date': profile.trial_ends_at.isoformat()
@@ -133,6 +134,14 @@ class UserProfileService:
             ]
             
             for field in notification_fields:
+                if field in profile_data:
+                    setattr(profile, field, profile_data[field])
+                    updated_fields.append(field)
+            
+            # Status fields (like is_onboarded)
+            status_fields = ['is_onboarded', 'is_verified']
+            
+            for field in status_fields:
                 if field in profile_data:
                     setattr(profile, field, profile_data[field])
                     updated_fields.append(field)
