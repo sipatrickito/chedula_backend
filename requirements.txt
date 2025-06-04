@@ -1,15 +1,40 @@
+# Core Django and API
 django>=5.2
 djangorestframework
 django-cors-headers
 python-dotenv
-celery
-django-channels
+
+# Database
 psycopg2-binary 
-djangorestframework-simplejwt
-requests
-supabase>=2.3.0
-pyjwt>=2.8.0
+
+# Background Tasks and Real-time
+celery
+django-celery-beat
+django-channels
 redis>=5.0.0
-pillow>=10.0.0
 django-redis>=5.4.0
+channels-redis
+
+# Authentication and Security
+djangorestframework-simplejwt
+pyjwt>=2.8.0
+supabase>=2.3.0
+
+# AI Integration
+openai>=1.3.0
+requests
+
+# File handling and utilities
+pillow>=10.0.0
+
+# API Documentation
 drf-spectacular>=0.27.0
+
+# Search functionality (for customer/equipment search)
+django-filter
+
+# Date/time utilities
+python-dateutil
+
+# Development tools
+django-extensions

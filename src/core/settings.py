@@ -19,7 +19,17 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables from .env file
-load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
+# Try multiple locations to support both local development and Docker
+env_paths = [
+    os.path.join(BASE_DIR, '..', '.env'),  # Local development: /backend/.env
+    '/app/.env',  # Docker: /app/.env
+    '.env'  # Current directory
+]
+
+for env_path in env_paths:
+    if os.path.exists(env_path):
+        load_dotenv(env_path)
+        break
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,6 +57,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "drf_spectacular",
+    "django_celery_beat",
     "api",
     "users",
     "ai_assistant",
@@ -102,8 +113,16 @@ DATABASES = {
         "HOST": os.getenv("DB_HOST", "localhost"),
         "PORT": os.getenv("DB_PORT", "5432"),
         "OPTIONS": {
-            "sslmode": "require"
-        }
+            "sslmode": "require",
+            "sslrootcert": "disable",
+            "sslcert": "disable", 
+            "sslkey": "disable",
+            "connect_timeout": 30,
+            "options": "-c default_transaction_isolation=read_committed",
+            "target_session_attrs": "read-write"
+        },
+        "CONN_MAX_AGE": 0,  # Don't persist connections for Supabase
+        "ATOMIC_REQUESTS": True  # Ensure atomic transactions
     }
 }
 
@@ -289,3 +308,28 @@ LOGGING = {
         },
     },
 }
+
+# Celery Configuration
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# Celery task routing
+CELERY_TASK_ROUTES = {
+    'notifications.*': {'queue': 'notifications'},
+    'ai_assistant.*': {'queue': 'ai_processing'},
+    'contracts.*': {'queue': 'document_processing'},
+}
+
+# Celery worker configuration
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_TASK_ACKS_LATE = True
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 50
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
