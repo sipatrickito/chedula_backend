@@ -33,37 +33,48 @@ cd chedula/backend
 ### 2. Create Environment File
 Create a `.env` file in the backend directory with these exact credentials:
 
-```env
-# Django settings
-DJANGO_SECRET_KEY=223Captain223!
+# Django Configuration
+DJANGO_SECRET_KEY=your-super-secret-key-change-this-in-production-min-50-chars
 DJANGO_DEBUG=True
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
 
-# Database (PostgreSQL via Supabase) - Transaction Pooler
+# Database Configuration (Supabase PostgreSQL)
+# Get these from your Supabase project settings > Database
 DB_NAME=postgres
-DB_USER=postgres.lyidjlqggxajluadtklx
-DB_PASSWORD=QqHcm9DTYjmqeI9E
-DB_HOST=aws-0-ap-southeast-1.pooler.supabase.com
-DB_PORT=6543
+DB_USER=postgres.your-project-ref
+DB_PASSWORD=your-database-password
+DB_HOST=db.your-project-ref.supabase.co
+DB_PORT=5432
 
-# Supabase
-SUPABASE_URL=https://lyidjlqggxajluadtklx.supabase.co
-SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5aWRqbHFnZ3hhamx1YWR0a2x4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTAxNzQ5MiwiZXhwIjoyMDY0NTkzNDkyfQ.E42peLhNQhLxNPfWNf4_tyxqKelgGI4APiDnawcjagM
-SUPABASE_JWT_SECRET=ShzlVqJYUs0Kt1CRjALIkgAkbEyiiMDit6WxtDXXL6ctgHE1ywxikvED+skHBOKcUUSPBW8a5RNqnZ2w0Oi9KA==
+# Supabase Configuration
+# Get these from your Supabase project settings > API
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+SUPABASE_JWT_SECRET=your-supabase-jwt-secret
 
-# OpenRouter API (AI)
-OPENROUTER_API_KEY=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
-
-# Redis (handled by Docker Compose)
+# Redis Configuration (handled by Docker Compose)
 REDIS_URL=redis://redis:6379/0
 
-# Email settings (optional for development)
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+# AI Integration (OpenRouter)
+# Sign up at https://openrouter.ai/ and get your API key
+OPENROUTER_API_KEY=your-openrouter-api-key
 
-# Payment Processing (optional for initial development)
-# PAYMONGO_SECRET_KEY=your-paymongo-secret-key
-# PAYMONGO_PUBLIC_KEY=your-paymongo-public-key
-```
+# Payment Processing (Paymongo - Optional for now)
+# Sign up at https://paymongo.com for production keys
+PAYMONGO_SECRET_KEY=sk_test_your-paymongo-secret-key
+PAYMONGO_PUBLIC_KEY=pk_test_your-paymongo-public-key
+
+# Email Configuration (Optional - for notifications)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+
+# Development URLs
+FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://localhost:8000 
 
 > **Note**: These are shared development credentials. In production, each teammate would have their own environment variables.
 
@@ -333,9 +344,3 @@ git push origin feature-branch
 3. **Verify .env file** matches exactly
 4. **Ask teammate** - share error logs if needed
 5. **Restart fresh**: `docker-compose down && docker-compose up --build`
-
----
-
-**Happy coding! 🚀**
-
-Your backend is now ready for the 3-day development sprint! 
