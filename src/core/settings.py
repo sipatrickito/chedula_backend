@@ -109,7 +109,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [os.getenv("REDIS_URL")],
+            "hosts": [os.getenv("REDIS_URL", "redis://localhost:6379/0")],
             "capacity": 1500,  # Maximum messages in a single channel
             "expiry": 60,      # Message expiry time in seconds
         },
