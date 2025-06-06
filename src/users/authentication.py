@@ -114,7 +114,6 @@ class SupabaseJWTAuthentication(authentication.BaseAuthentication):
         try:
             # Decode and validate the JWT token
             # Add clock skew tolerance to handle timing differences
-            import time
             payload = jwt.decode(
                 token,
                 self.jwt_secret,
