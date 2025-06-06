@@ -330,16 +330,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
 
-class ChatAuthMiddleware:
-    """
-    Middleware to handle authentication for WebSocket connections.
-    This is an alternative to built-in authentication for custom requirements.
-    """
-    
-    def __init__(self, app):
-        self.app = app
-    
-    async def __call__(self, scope, receive, send):
-        # For now, we handle authentication in the consumer itself
-        # This middleware can be enhanced for additional security features
-        return await self.app(scope, receive, send) 
+# Removed the ChatAuthMiddleware class as it was a no-op placeholder.
