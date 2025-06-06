@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_spectacular",
     "django_celery_beat",
+    "channels",
     "api",
     "users",
     "ai_assistant",
@@ -100,6 +101,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+# Django Channels Configuration
+ASGI_APPLICATION = "core.asgi.application"
+
+# Channel Layers Configuration
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.getenv("REDIS_URL", "redis://localhost:6379/0")],
+            "capacity": 1500,  # Maximum messages in a single channel
+            "expiry": 60,      # Message expiry time in seconds
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -329,6 +344,28 @@ CELERY_TASK_ROUTES = {
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_TASK_ACKS_LATE = True
 CELERY_WORKER_MAX_TASKS_PER_CHILD = 50
+
+# AI Assistant Configuration
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "anthropic/claude-3-sonnet")
+
+# AI Assistant Settings
+AI_ASSISTANT_SETTINGS = {
+    "max_tokens": 1000,
+    "temperature": 0.3,
+    "timeout": 30,
+    "retry_attempts": 3,
+    "context_window_size": 10,  # Number of previous messages to include
+    "response_cache_ttl": 3600,  # Cache responses for 1 hour
+}
+
+# WebSocket Settings
+WEBSOCKET_SETTINGS = {
+    "connection_timeout": 300,  # 5 minutes
+    "heartbeat_interval": 30,   # Send ping every 30 seconds
+    "max_message_size": 8192,   # 8KB max message size
+}
 
 # Media files
 MEDIA_URL = '/media/'
