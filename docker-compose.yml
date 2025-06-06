@@ -40,8 +40,8 @@ services:
         python src/manage.py collectstatic --noinput --clear &&
         echo 'Running database migrations...' &&
         python src/manage.py migrate &&
-        echo 'Starting Django development server...' &&
-        python src/manage.py runserver 0.0.0.0:8000 --insecure
+        echo 'Starting Django ASGI server with WebSocket support...' &&
+        cd src && daphne -b 0.0.0.0 -p 8000 core.asgi:application
       "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
