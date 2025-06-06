@@ -7,7 +7,6 @@ including authentication, message processing, and real-time communication.
 
 import json
 import logging
-import asyncio
 from typing import Dict, Any, Optional
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
