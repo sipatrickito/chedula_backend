@@ -113,6 +113,8 @@ class SupabaseJWTAuthentication(authentication.BaseAuthentication):
         
         try:
             # Decode and validate the JWT token
+            # Add clock skew tolerance to handle timing differences
+            import time
             payload = jwt.decode(
                 token,
                 self.jwt_secret,
@@ -125,7 +127,9 @@ class SupabaseJWTAuthentication(authentication.BaseAuthentication):
                     'require_exp': True,
                     'require_iat': True,
                     'require_sub': True
-                }
+                },
+                # Allow 60 seconds of clock skew tolerance
+                leeway=60
             )
             
             # Log authentication attempt
