@@ -246,6 +246,7 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only for development
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Next.js development server
     "https://your-app.vercel.app",  # Production frontend URL
+    "https://chedula-backend1.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
