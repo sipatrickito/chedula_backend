@@ -248,6 +248,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://your-app.vercel.app",  # Production frontend URL
     "https://chedula-backend1.onrender.com",
 ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://chedula-backend1.onrender.com",
+]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
